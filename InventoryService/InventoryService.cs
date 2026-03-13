@@ -17,7 +17,7 @@ namespace Item_Inventory.InventoryService
             manager.itemAdd(new Item("Screw", 10));
         }
 
-        private void create()
+        public void create()
         {
             Item item;
             string name;
@@ -39,7 +39,7 @@ namespace Item_Inventory.InventoryService
             manager.itemAdd(item);
         }
 
-        private void delete()
+        public void delete()
         {
             Item item;
             string itemSearch;
@@ -54,7 +54,7 @@ namespace Item_Inventory.InventoryService
                 manager.itemRemove(item);
             }
         }
-        private void add()
+        public void add()
         {
             Item item;
             int amount;
@@ -72,7 +72,7 @@ namespace Item_Inventory.InventoryService
 
             manager.amountAdd(item, amount);
         }
-        private void remove()
+        public void remove()
         {
             Item item;
             int amount;
@@ -93,7 +93,7 @@ namespace Item_Inventory.InventoryService
                 manager.amountRemove(item, amount);
             }
         }
-        private void search()
+        public void search()
         {
             Item item;
 
