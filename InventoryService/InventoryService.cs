@@ -109,7 +109,7 @@ namespace Item_Inventory.InventoryService
             Console.WriteLine("Amount: " + item.amount);
         }
 
-        private Item choice()
+        public Item choice()
         {
             int display = 3;
             int index = 0;
@@ -160,7 +160,7 @@ namespace Item_Inventory.InventoryService
             }
         }
 
-        private string prompt()
+        public string prompt()
         {
             Console.Write("> ");
             return Console.ReadLine();
