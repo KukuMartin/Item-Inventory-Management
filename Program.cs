@@ -1,12 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using InventoryService;
+using Item_Inventory.InventoryService;
 
 namespace Item_Inventory
 {
     internal class Program
     {
-        
+
         static void Main(string[] args)
         {
             InventoryService service = new InventoryService();
@@ -20,8 +20,9 @@ namespace Item_Inventory
             Console.WriteLine("Remove an item (remove)");
             Console.WriteLine("Search an item(search)");
 
-            string choice = prompt().ToLower();
-            switch (choice) {
+            string choice = service.prompt().ToLower();
+            switch (choice)
+            {
                 case "create":
                     service.create();
                     break;
