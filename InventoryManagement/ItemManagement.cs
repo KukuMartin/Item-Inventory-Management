@@ -1,59 +1,60 @@
-﻿using System;
-using Item_Inventory.InventoryObject;
+﻿using Item_Inventory.InventoryObject;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace Item_Inventory.InventoryService
+namespace InventoryManagement
 {
     public class ItemManagement
     {
-        private List<Item> items = new List<Item>() ;
+        ItemManagementFramework framework;
 
+        public ItemManagement(ItemManagementFramework framework)
+        {
+            this.framework = framework;
+        }
 
         public void itemAdd(Item item)
         {
-            items.Add(item);
+            framework.itemAdd(item);
         }
         public void itemRemove(Item item)
         {
-            items.Remove(item);
+            framework.itemRemove(item);
         }
-
         public Item itemSearch(string name)
         {
-            return items.FirstOrDefault(item => item.name == name);
+            return framework.itemSearch(name);
         }
         public Item itemSearch(int index)
         {
-            return items[index];
+            return framework.itemSearch(index);
         }
-
         public bool itemExist(string name)
         {
-            Item item = items.FirstOrDefault(item => item.name == name);
-            return item != null;
+            return framework.itemExist(name);
         }
-
-        public void itemUpdate(Item item, string newName, int newAMount)
+        public void itemUpdate(Item item, string newName, int newAmount)
         {
-            item.name = newName;
-            item.amount = newAMount;
+            framework.itemUpdate(item, newName, newAmount);
         }
-
         public void amountAdd(Item item, int amount)
         {
-            item.amount += amount;
+            framework.amountAdd(item, amount);
         }
-
         public void amountRemove(Item item, int amount)
         {
-            item.amount -= amount;
+            framework.amountRemove(item, amount);
         }
         public int itemSize()
         {
-            return items.Count;
+            return framework.itemSize();
         }
         public List<Item> itemList()
         {
-            return items;
+            return framework.itemList();
         }
     }
 }

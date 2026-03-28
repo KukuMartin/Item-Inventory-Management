@@ -1,21 +1,12 @@
 ﻿using Item_Inventory.InventoryObject;
+using Item_Inventory.InventoryManagement;
+using InventoryManagement;
 
 namespace Item_Inventory.InventoryService
 {
-    public class InventoryService
+    public class ItemService
     {
-        ItemManagement manager = new ItemManagement();
-
-
-        InventoryService()
-        {
-            manager.itemAdd(new Item("Hammer", 1));
-            manager.itemAdd(new Item("Nails", 10));
-            manager.itemAdd(new Item("Cigarette", 500));
-            manager.itemAdd(new Item("Plank", 20));
-            manager.itemAdd(new Item("Glue", 25));
-            manager.itemAdd(new Item("Screw", 10));
-        }
+        ItemManagement manager = new ItemManagement(new ItemDa());
 
         public void create()
         {
@@ -109,43 +100,40 @@ namespace Item_Inventory.InventoryService
             Console.WriteLine("Amount: " + item.amount);
         }
 
-        public Item choice()
+        public Item choice()    
         {
             int display = 3;
             int index = 0;
 
             while (true)
             {
+                int size = manager.itemSize();
                 int current = display * index;
                 int next = current + display;
 
-                int limit = next > manager.itemSize() ? manager.itemSize() : next;
+                int limit = next > size ? size : next;
 
                 string text = "";
                 text += (index == 0 ? "[Exit] " : "[Back] ");
 
                 for (int i = current; i < limit; i++)
                 {
-                    text += $"[{manager.itemSearch(i)}] ";
+                    text += $"[{manager.itemSearch(i).name}] ";
                 }
 
-                if (next < manager.itemSize())
+                if (next < size)
                 {
                     text += "[Next]";
                 }
                 Console.WriteLine(text);
                 string search = prompt().ToLower();
-                if (search.Equals("exit"))
-                {
+
+                if (search.Equals("exit")) {
                     return null;
-                }
-                else if (index != 0 & search.Equals("back"))
-                {
+                } else if (index != 0 & search.Equals("back")) {
                     index--;
                     continue;
-                }
-                else if (next < manager.itemSize() & search.Equals("next"))
-                {
+                } else if (next < size & search.Equals("next")) {
                     index++;
                     continue;
                 }

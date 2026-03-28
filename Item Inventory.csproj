@@ -4,12 +4,24 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <RootNamespace>Item_Inventory</RootNamespace>
-    <ImplicitUsings>enable</ImplicitUsings>
+    <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InventoryService\InventoryService.csproj" />
+    <Compile Remove="InventoryManagement\**" />
+    <Compile Remove="InventoryService\**" />
+    <Compile Remove="InventoyObject\**" />
+    <EmbeddedResource Remove="InventoryManagement\**" />
+    <EmbeddedResource Remove="InventoryService\**" />
+    <EmbeddedResource Remove="InventoyObject\**" />
+    <None Remove="InventoryManagement\**" />
+    <None Remove="InventoryService\**" />
+    <None Remove="InventoyObject\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="InventoryService\InventoryService.csproj" />
   </ItemGroup>
 
 </Project>
