@@ -7,7 +7,7 @@ namespace Item_Inventory.InventoryService
 {
     public class ItemService
     {
-        ItemManagement manager = new ItemManagement(new ItemMemoryManagement());
+        ItemManagement manager = new ItemManagement(new ItemJsonManagement());
 
         public void create()
         {
