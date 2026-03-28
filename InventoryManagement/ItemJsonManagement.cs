@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace InventoryService
 {
-    internal class ItemJsonManagement : ItemManagementFramework
+    public class ItemJsonManagement : ItemManagementFramework
     {
         private List<Item> items = new List<Item>();
 

@@ -1,12 +1,13 @@
 ﻿using Item_Inventory.InventoryObject;
 using Item_Inventory.InventoryManagement;
 using InventoryManagement;
+using InventoryService;
 
 namespace Item_Inventory.InventoryService
 {
     public class ItemService
     {
-        ItemManagement manager = new ItemManagement(new ItemDa());
+        ItemManagement manager = new ItemManagement(new ItemMemoryManagement());
 
         public void create()
         {
