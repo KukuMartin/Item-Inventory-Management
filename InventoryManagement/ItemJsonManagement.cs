@@ -18,13 +18,16 @@ namespace InventoryService
 
         public ItemJsonManagement()
         {
-            _jsonFileName = $"{AppDomain.CurrentDomain.BaseDirectory}/Accounts.json";
+            _jsonFileName = $"{AppDomain.CurrentDomain.BaseDirectory}/Items.json";
+            Console.WriteLine(_jsonFileName);
 
             populate();
         }
 
         public void populate()
         {
+            this.ReadJson();
+
             if(this.itemSize() != 0)
             {
                 return;
@@ -42,13 +45,10 @@ namespace InventoryService
 
         private void WriteJson()
         {
-            using (var outputStream = File.OpenWrite(_jsonFileName))
-            {
-                JsonSerializer.Serialize<List<Item>>(
-                    new Utf8JsonWriter(outputStream, new JsonWriterOptions
-                    { SkipValidation = true, Indented = true })
-                    , items);
-            }
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string json = JsonSerializer.Serialize(items, options);
+
+            File.WriteAllText(_jsonFileName, json);
         }
 
         private void ReadJson()
@@ -75,19 +75,18 @@ namespace InventoryService
 
         public Item itemSearch(string name)
         {
-            this.ReadJson();
-            return items.FirstOrDefault(item => item.name == name);
+            return items.FirstOrDefault(item => item.name.ToLower() == name.ToLower());
         }
+
         public Item itemSearch(int index)
         {
-            this.ReadJson();
             return items[index];
+
         }
 
         public bool itemExist(string name)
         {
-            this.ReadJson();
-            Item item = items.FirstOrDefault(item => item.name == name);
+            Item item = items.FirstOrDefault(item => item.name.ToLower() == name.ToLower());
             return item != null;
         }
 
@@ -111,12 +110,10 @@ namespace InventoryService
         }
         public int itemSize()
         {
-            this.ReadJson();
             return items.Count;
         }
         public List<Item> itemList()
         {
-            this.ReadJson();
             return items;
         }
     }

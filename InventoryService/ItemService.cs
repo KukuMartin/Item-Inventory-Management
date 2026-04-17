@@ -9,150 +9,77 @@ namespace Item_Inventory.InventoryService
     {
         ItemManagement manager = new ItemManagement(new ItemJsonManagement());
 
-        public void create()
+        public void create(Item item)
         {
-            Item item;
-            string name;
-            int amount;
-            Console.WriteLine("The name of the item: ");
-            name = prompt();
-
-            Console.Write("Amount of the item: ");
-            amount = int.Parse(Console.ReadLine());
-
-            item = new Item(name, amount);
-
-            if(manager.itemExist(name))
+            if (manager.itemExist(item.name))
             {
-                Console.WriteLine("Item already exists");
+                return;
+            } 
+            else if (item.amount < 0)
+            {
                 return;
             }
 
             manager.itemAdd(item);
         }
 
-        public void delete()
-        {
-            Item item;
-            string itemSearch;
-
-            Console.Write("The name of the item: ");
-            itemSearch = Console.ReadLine();
-
-            item = manager.itemSearch(itemSearch);
-
-            if (item != null)
-            {
-                manager.itemRemove(item);
-            }
-        }
-        public void add()
-        {
-            Item item;
-            int amount;
-
-            Console.Write("Find an item: ");
-            item = choice();
-
-            if (item == null)
+        public void delete(Item item)
+        {   
+            if (!manager.itemExist(item.name))
             {
                 return;
             }
 
-            Console.WriteLine("How much to add: ");
-            amount = int.Parse(prompt());
-
-            manager.amountAdd(item, amount);
+            manager.itemRemove(item);
         }
-        public void remove()
+        public void add(Item item, int amount)
         {
-            Item item;
-            int amount;
-
-            Console.Write("Find an item: ");
-            item = choice();
-
-            if (item == null)
+            if (!manager.itemExist(item.name))
+            {
+                return;
+            }
+            else if (amount <= 0)
             {
                 return;
             }
 
-            Console.WriteLine("How much to remove: ");
-            amount = int.Parse(prompt());
-
-            if(item.amount >= amount)
-            {
-                manager.amountRemove(item, amount);
-            }
+            Item add = manager.itemSearch(item.name);
+            manager.amountAdd(add, amount);
         }
-        public void search()
+
+        public void remove(Item item, int amount)
         {
-            Item item;
-
-            Console.Write("Find an item: ");
-            item = choice();
-
-            if (item == null)
+            if (!manager.itemExist(item.name))
+            {
+                return;
+            }
+            else if (amount <= 0 || amount > item.amount)
             {
                 return;
             }
 
-            Console.WriteLine("Item: " + item.name);
-            Console.WriteLine("Amount: " + item.amount);
+            Item remove = manager.itemSearch(item.name);
+            manager.amountRemove(remove, amount);
         }
 
-        public Item choice()    
+        public Item search(int index)
         {
-            int display = 3;
-            int index = 0;
-
-            while (true)
+            if (index < 0 || index >= manager.itemSize())
             {
-                int size = manager.itemSize();
-                int current = display * index;
-                int next = current + display;
-
-                int limit = next > size ? size : next;
-
-                string text = "";
-                text += (index == 0 ? "[Exit] " : "[Back] ");
-
-                for (int i = current; i < limit; i++)
-                {
-                    text += $"[{manager.itemSearch(i).name}] ";
-                }
-
-                if (next < size)
-                {
-                    text += "[Next]";
-                }
-                Console.WriteLine(text);
-                string search = prompt().ToLower();
-
-                if (search.Equals("exit")) {
-                    return null;
-                } else if (index != 0 & search.Equals("back")) {
-                    index--;
-                    continue;
-                } else if (next < size & search.Equals("next")) {
-                    index++;
-                    continue;
-                }
-
-                foreach (Item item in manager.itemList())
-                {
-                    if (item.name.ToLower().Equals(search))
-                    {
-                        return item;
-                    }
-                }
+                return null;
             }
+
+            return manager.itemSearch(index);
+        }
+        public int size()
+        {
+            return manager.itemSize();
         }
 
-        public string prompt()
+
+        public bool exist(string name)
         {
-            Console.Write("> ");
-            return Console.ReadLine();
+           return manager.itemExist(name);
         }
     }
 }

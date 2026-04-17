@@ -11,14 +11,14 @@ namespace InventoryManagement
 {
     public class ItemDatabaseManagement : ItemManagementFramework
     {
-        private string SqlConnection
+        private string connectionString
         = "Data Source =localhost\\SQLEXPRESS; Initial Catalog = ItemInventory; Integrated Security = True; TrustServerCertificate=True;";
 
         private SqlConnection sqlConnection;
 
         public ItemDatabaseManagement()
         {
-            sqlConnection = new SqlConnection(SqlConnection);
+            sqlConnection = new SqlConnection(connectionString);
             this.populate();
         }
 
@@ -39,20 +39,45 @@ namespace InventoryManagement
 
         public void amountAdd(Item item, int amount)
         {
-            throw new NotImplementedException();
+            int newAmount = item.amount + amount;
+            var addStatement = "UPDATE Items SET Amount = @Amount WHERE Name = @Name";
+
+            SqlCommand addCommand = new SqlCommand(addStatement, sqlConnection);
+            addCommand.Parameters.AddWithValue("@Name", item.name);
+            addCommand.Parameters.AddWithValue("@Amount", newAmount);
+            sqlConnection.Open();
+
+            addCommand.ExecuteNonQuery();
+
+            sqlConnection.Close();
         }
 
         public void amountRemove(Item item, int amount)
         {
-            throw new NotImplementedException();
+            int newAmount = item.amount - amount;
+
+            if(newAmount < 0)
+            {
+                return;
+            }
+
+            var addStatement = "UPDATE Items SET Amount = @Amount WHERE Name = @Name";
+
+            SqlCommand addCommand = new SqlCommand(addStatement, sqlConnection);
+            addCommand.Parameters.AddWithValue("@Name", item.name);
+            addCommand.Parameters.AddWithValue("@Amount", newAmount);
+            sqlConnection.Open();
+
+            addCommand.ExecuteNonQuery();
+
+            sqlConnection.Close();
         }
 
         public void itemAdd(Item item)
         {
-            var insertStatement = "INSERT INTO Accounts VALUES (@Name, @Amount)";
+            var insertStatement = "INSERT INTO Items VALUES (@Name, @Amount)";
 
             SqlCommand insertCommand = new SqlCommand(insertStatement, sqlConnection);
-
             insertCommand.Parameters.AddWithValue("@Name", item.name);
             insertCommand.Parameters.AddWithValue("@Amount", item.amount);
             sqlConnection.Open();
@@ -64,15 +89,24 @@ namespace InventoryManagement
 
         public bool itemExist(string name)
         {
-            throw new NotImplementedException();
+            var searchStatement = "SELECT 1 FROM Items WHERE Name = @Name";
+
+            SqlCommand searchCommand = new SqlCommand(searchStatement, sqlConnection);
+            searchCommand.Parameters.AddWithValue("@Name", name);
+            sqlConnection.Open();
+
+            SqlDataReader reader = searchCommand.ExecuteReader();
+            bool itemExist = reader.Read();
+
+            sqlConnection.Close();
+            return itemExist;
         }
 
         public List<Item> itemList()
         {
-            string selectStatement = "SELECT Name, Amount FROM Item";
+            var selectStatement = "SELECT Name, Amount FROM Items";
 
             SqlCommand selectCommand = new SqlCommand(selectStatement, sqlConnection);
-
             sqlConnection.Open();
 
             SqlDataReader reader = selectCommand.ExecuteReader();
@@ -81,11 +115,11 @@ namespace InventoryManagement
 
             while (reader.Read())
             {
-                //deserialize
                 String name = reader["Name"].ToString(); ;
                 int amount = (int)reader["Amount"];
-                Item item = new Item(name, amount);
 
+
+                Item item = new Item(name, amount);
                 items.Add(item);
             }
 
@@ -95,27 +129,81 @@ namespace InventoryManagement
 
         public void itemRemove(Item item)
         {
-            throw new NotImplementedException();
+            var deleteStatement = "DELETE FROM Items WHERE Name = @Name";
+
+            SqlCommand deleteCommand = new SqlCommand(deleteStatement, sqlConnection);
+            deleteCommand.Parameters.AddWithValue("@Name", item.name);
+            sqlConnection.Open();
+
+            deleteCommand.ExecuteNonQuery();
+
+            sqlConnection.Close();
         }
 
         public Item itemSearch(string name)
         {
-            throw new NotImplementedException();
+            var searchStatement = "SELECT Name, Amount FROM Items WHERE Name = @Name";
+
+            SqlCommand searchCommand = new SqlCommand(searchStatement, sqlConnection);
+            searchCommand.Parameters.AddWithValue("@Name", name);
+            sqlConnection.Open();
+
+            SqlDataReader reader = searchCommand.ExecuteReader();
+            reader.Read();
+
+            Item item = new Item(reader["Name"].ToString(), (int)reader["Amount"]);
+
+            sqlConnection.Close();
+            return item;
         }
 
         public Item itemSearch(int index)
         {
-            throw new NotImplementedException();
+            var searchStatement = "SELECT Name, Amount FROM Items WHERE ID = @Index";
+
+            SqlCommand searchCommand = new SqlCommand(searchStatement, sqlConnection);
+            searchCommand.Parameters.AddWithValue("@Index", index);
+            sqlConnection.Open();
+
+            SqlDataReader reader = searchCommand.ExecuteReader();
+            reader.Read();
+            Item item = new Item(reader["Name"].ToString(), (int)reader["Amount"]);
+
+            sqlConnection.Close();
+            return item;
         }
 
         public int itemSize()
         {
-            throw new NotImplementedException();
+            int size;
+            var sizeStatement = "SELECT COUNT(ID) AS Size FROM Items";
+
+            SqlCommand sizeCommand = new SqlCommand(sizeStatement, sqlConnection);
+            sqlConnection.Open();
+
+            SqlDataReader reader = sizeCommand.ExecuteReader();
+            reader.Read();
+
+            size = (int)reader["Size"];
+
+            sqlConnection.Close();
+            return size;
         }
 
         public void itemUpdate(Item item, string newName, int newAmount)
         {
-            throw new NotImplementedException();
+            var updateStatement = "UPDATE Items SET Name = @NewName, Amount = @NewAmount WHERE Name = @Name AND Amount = @Amount";
+
+            SqlCommand updateCommand = new SqlCommand(updateStatement, sqlConnection);
+            updateCommand.Parameters.AddWithValue("@Name", item.name);
+            updateCommand.Parameters.AddWithValue("@Amount", item.amount);
+            updateCommand.Parameters.AddWithValue("@NewName", newName);
+            updateCommand.Parameters.AddWithValue("@NewAmount", newAmount);
+            sqlConnection.Open();
+
+            updateCommand.ExecuteNonQuery();
+
+            sqlConnection.Close();
         }
     }
 }

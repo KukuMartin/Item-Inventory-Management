@@ -1,62 +1,83 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using Item_Inventory.InventoryObject;
 using Item_Inventory.InventoryService;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace Item_Inventory
 {
     internal class Program
     {
-        static ItemService service;
+        private static GuiConsole gui;
         static void Main(string[] args)
         {
-            Boolean reset;
-            service = new ItemService();
-            do
+            Boolean reset = true;
+            gui = new GuiConsole();
+
+            while(reset)
             {
-                Console.WriteLine("Welcome to NetMart Inventory Management System 200");
+                Console.WriteLine("\nWelcome to NetMart Inventory Management System 200");
                 Console.WriteLine("What would you like to do?");
 
-                Console.WriteLine("Create an item (create)");
-                Console.WriteLine("Delete an item (delete)");
-                Console.WriteLine("Add an item (add)");
-                Console.WriteLine("Remove an item (remove)");
-                Console.WriteLine("Search an item(search)");
+                Console.WriteLine("Create an item  (create)");
+                Console.WriteLine("Delete an item  (delete)");
+                Console.WriteLine("Add an item     (add)");
+                Console.WriteLine("Remove an item  (remove)");
+                Console.WriteLine("Display an item (display)");
 
-                string choice = service.prompt().ToLower();
+                string choice = gui.prompt().ToLower();
                 switch (choice)
                 {
                     case "create":
-                        service.create();
+                        gui.create();
                         break;
                     case "delete":
-                        service.delete();
+                        gui.delete();
                         break;
                     case "add":
-                        service.add();
+                        gui.add();
                         break;
                     case "remove":
-                        service.remove();
+                        gui.remove();
                         break;
-                    case "search":
-                        service.search();
+                    case "display":
+                        gui.display();
                         break;
+                    default:
+                        gui.announce("Invalid input");
+                        continue;
                 }
                 reset = Program.reset();
-            } while (reset);
-        }
-
-        static bool reset()
-        {
-            string answer;
-            Console.WriteLine("\nContinue? ");
-
-            answer = service.prompt().ToLower();
-            if(answer == "yes") {
-                Console.WriteLine();//new line for pretties
-                return true;
-            } else {
-                return false;
             }
         }
+
+        private static bool reset()
+        {
+            string answer;
+
+            while (true)
+            {
+                Console.WriteLine("\nContinue? ");
+
+                answer = gui.prompt().ToLower();
+                if (answer.ToLower() == "yes")
+                {
+                    Console.WriteLine();
+                    return true;
+                }
+                if (answer.ToLower() == "no")
+                {
+                    Console.WriteLine();
+                    return false;
+                }
+                else
+                {
+                    gui.announce("Invalid input");
+                    continue;
+                }
+            }
+        }
+
+        
     }
 }

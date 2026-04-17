@@ -33,8 +33,9 @@ namespace Item_Inventory.InventoryManagement {
 
         public Item itemSearch(string name)
         {
-            return items.FirstOrDefault(item => item.name == name);
+            return items.FirstOrDefault(item => item.name.ToLower() == name.ToLower());
         }
+
         public Item itemSearch(int index)
         {
             return items[index];
@@ -42,7 +43,7 @@ namespace Item_Inventory.InventoryManagement {
 
         public bool itemExist(string name)
         {
-            Item item = items.FirstOrDefault(item => item.name == name);
+            Item item = items.FirstOrDefault(item => item.name.ToLower() == name.ToLower());
             return item != null;
         }
 
