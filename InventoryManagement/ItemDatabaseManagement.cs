@@ -162,7 +162,7 @@ namespace InventoryManagement
             var searchStatement = "SELECT Name, Amount FROM Items WHERE ID = @Index";
 
             SqlCommand searchCommand = new SqlCommand(searchStatement, sqlConnection);
-            searchCommand.Parameters.AddWithValue("@Index", index);
+            searchCommand.Parameters.AddWithValue("@Index", index + 1);
             sqlConnection.Open();
 
             SqlDataReader reader = searchCommand.ExecuteReader();

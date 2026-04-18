@@ -50,7 +50,7 @@ namespace Item_Inventory
             Item item;
 
             Console.WriteLine("\nDELETE: ");
-            Console.Write("The name of the item: ");
+            Console.WriteLine("The name of the item: ");
             item = this.choice();
 
             if (item == null)
@@ -68,7 +68,7 @@ namespace Item_Inventory
             int amount;
 
             Console.WriteLine("\nADD");
-            Console.Write("Find an item: ");
+            Console.WriteLine("Find an item: ");
             item = choice();
 
             if (item == null)
@@ -96,7 +96,7 @@ namespace Item_Inventory
             int amount;
 
             Console.WriteLine("\nREMOVE");
-            Console.Write("Find an item: ");
+            Console.WriteLine("Find an item: ");
             item = choice();
 
             if (item == null)
@@ -122,7 +122,7 @@ namespace Item_Inventory
             Item item;
 
             Console.WriteLine("\nDISPLAY");
-            Console.Write("Find an item: ");
+            Console.WriteLine("Find an item: ");
             item = choice();
 
             if (item == null)
