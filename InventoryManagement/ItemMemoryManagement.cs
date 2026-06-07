@@ -1,6 +1,7 @@
-﻿using System;
-using InventoryManagement;
+﻿using InventoryManagement;
 using Item_Inventory.InventoryObject;
+using System;
+using System.Xml.Linq;
 
 namespace Item_Inventory.InventoryManagement {
     public class ItemMemoryManagement : ItemManagementFramework
@@ -43,8 +44,6 @@ namespace Item_Inventory.InventoryManagement {
 
         public bool itemExist(string name)
         {
-            Item item = items.FirstOrDefault(item => item.name.ToLower() == name.ToLower());
-            return item != null;
         }
 
         public void itemUpdate(Item item, string newName, int newAmount)
@@ -69,6 +68,57 @@ namespace Item_Inventory.InventoryManagement {
         public List<Item> itemList()
         {
             return items;
+        }
+
+        public List<Category> getAllCategory()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Category getCategory(Guid categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Item> getAllItem(Guid categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Item getItem(Guid itemId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void addCategory(Category category)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void addItem(Item item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void removeCategory(Guid categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void removeItem(Guid itemId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool CategoryExist(Guid categoryId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ItemExist(Guid itemId)
+        {
+            Item item = items.FirstOrDefault(item => item.id == itemId);
+            return item != null;
         }
     }
 }
