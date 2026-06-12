@@ -142,10 +142,6 @@ namespace InventoryManagement
 
         public Item itemSearch(string name)
         {
-            if (!itemExist(name))
-            {
-                return;
-            }
             var searchStatement = "SELECT Name, Amount FROM Items WHERE Name = @Name";
 
             SqlCommand searchCommand = new SqlCommand(searchStatement, sqlConnection);
@@ -153,9 +149,12 @@ namespace InventoryManagement
             sqlConnection.Open();
 
             SqlDataReader reader = searchCommand.ExecuteReader();
-            reader.Read();
 
-            Item item = new Item(reader["Name"].ToString(), (int)reader["Amount"]);
+            Item item = null;
+            if (reader.Read())
+            {
+               item = new Item(reader["Name"].ToString(), (int)reader["Amount"]);
+            }
 
             sqlConnection.Close();
             return item;
