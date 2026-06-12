@@ -9,15 +9,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="InventoryData\**" />
     <Compile Remove="InventoryManagement\**" />
     <Compile Remove="InventoryService\**" />
     <Compile Remove="InventoyObject\**" />
+    <Compile Remove="Item-Inventory-Management\**" />
+    <EmbeddedResource Remove="InventoryData\**" />
     <EmbeddedResource Remove="InventoryManagement\**" />
     <EmbeddedResource Remove="InventoryService\**" />
     <EmbeddedResource Remove="InventoyObject\**" />
+    <EmbeddedResource Remove="Item-Inventory-Management\**" />
+    <None Remove="InventoryData\**" />
     <None Remove="InventoryManagement\**" />
     <None Remove="InventoryService\**" />
     <None Remove="InventoyObject\**" />
+    <None Remove="Item-Inventory-Management\**" />
   </ItemGroup>
 
   <ItemGroup>

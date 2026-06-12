@@ -7,59 +7,63 @@ namespace Item_Inventory.InventoryService
 {
     public class ItemService
     {
-        ItemManagement manager = new ItemManagement(new ItemJsonManagement());
+        ItemManagement manager = new ItemManagement(new ItemDatabaseManagement());
 
-        public void create(Item item)
+        public bool create(Item item)
         {
             if (manager.itemExist(item.name))
             {
-                return;
+                return false;
             } 
             else if (item.amount < 0)
             {
-                return;
+                return false;
             }
 
             manager.itemAdd(item);
+            return true;
         }
 
-        public void delete(Item item)
+        public bool delete(Item item)
         {   
             if (!manager.itemExist(item.name))
             {
-                return;
+                return false;
             }
 
             manager.itemRemove(item);
+            return true;
         }
-        public void add(Item item, int amount)
+        public bool add(Item item, int amount)
         {
             if (!manager.itemExist(item.name))
             {
-                return;
+                return false;
             }
             else if (amount <= 0)
             {
-                return;
+                return false;
             }
 
             Item add = manager.itemSearch(item.name);
             manager.amountAdd(add, amount);
+            return true;
         }
 
-        public void remove(Item item, int amount)
+        public bool remove(Item item, int amount)
         {
             if (!manager.itemExist(item.name))
             {
-                return;
+                return false;
             }
             else if (amount <= 0 || amount > item.amount)
             {
-                return;
+                return false;
             }
 
             Item remove = manager.itemSearch(item.name);
             manager.amountRemove(remove, amount);
+            return true;
         }
 
         public Item search(int index)
@@ -71,6 +75,15 @@ namespace Item_Inventory.InventoryService
 
             return manager.itemSearch(index);
         }
+        public Item search(string name)
+        {
+            if (string.IsNullOrEmpty(name))
+            {
+                return null;
+            }
+
+            return manager.itemSearch(name);
+        }
         public int size()
         {
             return manager.itemSize();
@@ -79,7 +92,7 @@ namespace Item_Inventory.InventoryService
 
         public bool exist(string name)
         {
-           return manager.itemExist(name);
+            return manager.itemExist(name);
         }
     }
 }
